@@ -10,6 +10,7 @@ function useCustomBackNavigation() {
     const navigate = useNavigate();
     const navigationType = useNavigationType();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const moveMainTarget = [
         '/communication/partner/complete',
         '/communication/visit-before-inquire/complete',
@@ -17,6 +18,7 @@ function useCustomBackNavigation() {
         '/login/email'
     ];
 
+    // URI 기록
     useEffect(() => {
         const currentURI = location.pathname;
         const prevURI = sessionStorage.getItem(SESSION_KEY_CURRENT_URI);
@@ -46,7 +48,7 @@ function useCustomBackNavigation() {
         return () => {
             window.removeEventListener("popstate", handlePopState);
         };
-    }, []);
+    }, [moveMainTarget, navigate]);
 
     useEffect(() => {
         let isMoveScroll = true;
