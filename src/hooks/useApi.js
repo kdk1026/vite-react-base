@@ -61,10 +61,14 @@ const useApi = (apiFunction, initialParams, callOnInit = true) => {
         if ( params[0] instanceof FormData ) {
             //
         } else {
-            if ( JSON.stringify(params) === JSON.stringify(prevParams) ) {
-                return;
+            try {
+                if ( JSON.stringify(params) === JSON.stringify(prevParams) ) {
+                    return;
+                }
+                setPrevParams(params);
+            } catch (error) {
+                console.error("JSON 문자열 변환 실패:", error);  
             }
-            setPrevParams(params);
         }
 
         try {
@@ -95,8 +99,12 @@ const useApi = (apiFunction, initialParams, callOnInit = true) => {
     }, [apiFunction, apiParams, prevParams, navigate]);
 
     useEffect(() => {
-        if ( JSON.stringify(apiParams) !== JSON.stringify(initialParams) ) {
-            setApiParams(initialParams);
+        try {
+            if ( JSON.stringify(apiParams) !== JSON.stringify(initialParams) ) {
+                setApiParams(initialParams);
+            }
+        } catch (error) {
+            console.error("JSON 문자열 변환 실패:", error);  
         }
     }, [apiParams, initialParams]);
 
