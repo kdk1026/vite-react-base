@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 export default function ErrorFallback({ error, resetErrorBoundary  }) {
 	const navigate = useNavigate();
 	
-	console.log(`error : ${error}`);
+	console.log(`React Error Captured: ${error}`);
 	
 	const handleGoHome = () => {
 		resetErrorBoundary();
