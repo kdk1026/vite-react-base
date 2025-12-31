@@ -43,6 +43,7 @@ const MenuBar = () => {
             <ul style={ulStyle}>
                 <li style={liStyle}>
                     <Link to={'/'} style={aStyle}>홈</Link>
+                    <Link to={'/state'} style={aStyle}>useState</Link>
                     <Link to={'/reducer'} style={aStyle}>useReducer</Link>
                     <Link to={'/redux'} style={aStyle}>Redux Toolkit</Link>
                 </li>
