@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer } from 'redux-persist';
-import sessionStorage from "redux-persist/lib/storage";
 import counterReducer from "./slices/counterSlice";
+import sessionStorage from "redux-persist/lib/storage/session";
 
 const reducers = combineReducers({
     counter: counterReducer
@@ -10,7 +10,7 @@ const reducers = combineReducers({
 const persistConfig = {
     key: 'root',
     storage: sessionStorage,
-    whitelist: []
+    whitelist: ['counter']
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
