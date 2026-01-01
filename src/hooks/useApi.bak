@@ -1,5 +1,5 @@
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 /**
  * @example
@@ -52,58 +52,71 @@ import { useNavigate } from 'react-router-dom';
 const useApi = (apiFunction, initialParams, callOnInit = true) => {
     const navigate = useNavigate();
 
-    const prevParamsRef = useRef('');
-
+    const [apiParams, setApiParams] = useState(initialParams || []);
     const [apiData, setApiData] = useState(null);
     const [apiPaging, setApiPaging] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [prevParams, setPrevParams] = useState(null);
 
-    const callApi = useCallback(async (params) => {
-        const currentParams = params.length > 0 ? params : initialParams;
-        const paramsJson = JSON.stringify(currentParams);
-
-        if ( !(currentParams[0] instanceof FormData) ) {
-            if ( paramsJson === prevParamsRef.current ) return;
-            prevParamsRef.current = paramsJson;
+    const callApi = useCallback(async (params = apiParams) => {
+        if ( params[0] instanceof FormData ) {
+            //
+        } else {
+            try {
+                if ( JSON.stringify(params) === JSON.stringify(prevParams) ) {
+                    return;
+                }
+                setPrevParams(params);
+            } catch (error) {
+                console.error("JSON 문자열 변환 실패:", error);  
+            }
         }
 
-        setIsLoading(true);
-
         try {
-            const res = await apiFunction(...(currentParams));
+            const res = await apiFunction(...params);
 
-            if ( res?.data ) {
-                const { list, data, paging } = res.data;
-
-                setApiData(list ?? data ?? res.data);
-                if (paging) setApiPaging(paging);
+            if ( res && res.data ) {
+                if ( res.data.list ) {
+                    setApiData(res.data.list);
+                } else if ( res.data.data ) {
+                    setApiData(res.data.data);
+                } else {
+                    setApiData(res.data);
+                }
+                
+                if ( res.data.paging ) {
+                    setApiPaging(res.data.paging);
+                }
             }
 
-            return res?.data;
+            return res ? res.data : null;
         } catch (error) {
             if ( error.status === 999 ) {
                 navigate("/error-network");
             }
             
             console.log(error);
-        } finally {
-            setIsLoading(false);
         }
-    }, [initialParams, setIsLoading, apiFunction, navigate]);
+    }, [apiFunction, apiParams, prevParams, navigate]);
 
     useEffect(() => {
-        if ( callOnInit )  {
-            const performInitialCall = async () => {
-                await callApi(...initialParams);
-            };
-            performInitialCall();
+        try {
+            if ( JSON.stringify(apiParams) !== JSON.stringify(initialParams) ) {
+                setApiParams(initialParams);
+            }
+        } catch (error) {
+            console.error("JSON 문자열 변환 실패:", error);  
         }
-    }, [callOnInit, callApi, initialParams]);
+    }, [apiParams, initialParams]);
+
+    useEffect(() => {
+        if ( callOnInit)  {
+            callApi(apiParams);
+        }
+    }, [callOnInit, callApi, apiParams]);
 
     return {
-        apiData, apiPaging, isLoading,
+        apiData, apiPaging,
         callApi
     };
 };
-
 export default useApi;

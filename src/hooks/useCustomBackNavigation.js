@@ -32,15 +32,17 @@ function useCustomBackNavigation() {
             const currentURI = sessionStorage.getItem(SESSION_KEY_CURRENT_URI);
             const prevURI = sessionStorage.getItem(SESSION_KEY_PREV_URI);
 
-            if ( moveMainTarget.includes(prevURI) ) {
-                setTimeout(() => {
-                    navigate('/', { replace: true });
-                }, 200);
-            } else if ( currentURI === '/' ) {
-                setTimeout(() => {
-                    navigate('/', { replace: true });
-                }, 200);
-                return;
+            if ( prevURI ) {
+                if ( moveMainTarget.includes(prevURI) ) {
+                    setTimeout(() => {
+                        navigate('/', { replace: true });
+                    }, 200);
+                } else if ( currentURI === '/' ) {
+                    setTimeout(() => {
+                        navigate('/', { replace: true });
+                    }, 200);
+                    return;
+                }
             }
         };
 
