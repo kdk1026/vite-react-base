@@ -45,7 +45,7 @@ export default function ErrorFallback({ error, resetErrorBoundary  }) {
             <details style={{ whiteSpace: 'pre-wrap', margin: '15px 0', maxWidth: '80%', overflow: 'auto', textAlign: 'left' }}>
                 <summary style={{ cursor: 'pointer', fontWeight: 'bold' }}>오류 상세 정보 보기</summary>
                 <pre style={{ color: '#721c24', backgroundColor: '#f5c6cb', padding: '10px', borderRadius: '4px' }}>
-                    {error && error?.message}
+                    {error?.message}
                 </pre>
             </details>
 
