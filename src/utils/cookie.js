@@ -48,13 +48,13 @@ export const removeCookie = (name, isLocal, options) => {
 /**
  * Array 쿠키 생성
  * @param {string} name 
- * @param {Array} value 
+ * @param {Array} array 
  * @param {boolean} isLocal 
  * @param {*} options 
  * @returns 
  */
 export const setArrayInCookie = (name, array, isLocal, options) => {
-    if ( Array.isArray(array) && array.length > 0 ) {
+    if ( array && Array.isArray(array) && array.length > 0 ) {
         //JSON.stringify(array) 자동으로 해줌
         setCookie(name, array, isLocal, options);
     }
@@ -63,13 +63,13 @@ export const setArrayInCookie = (name, array, isLocal, options) => {
 /**
  * Object 쿠키 생성
  * @param {string} name 
- * @param {Object} value 
+ * @param {Object} object 
  * @param {boolean} isLocal 
  * @param {*} options 
  * @returns 
  */
 export const setObjectInCookie = (name, object, isLocal, options) => {
-    if ( Object.keys(object).length > 0 ) {
+    if ( object && !Array.isArray(object) && Object.keys(object).length > 0 ) {
         //JSON.stringify(object) 자동으로 해줌
         setCookie(name, object, isLocal, options);
     }
