@@ -86,6 +86,7 @@ const useApi = (apiFunction, initialParams, callOnInit = true) => {
             }
             
             console.log(error);
+			throw error;
         } finally {
             setIsLoading(false);
         }
