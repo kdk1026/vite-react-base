@@ -7,7 +7,7 @@ const cookies = new Cookies();
  * @param {string} name 
  * @param {string} value 
  * @param {boolean} isLocal 
- * @param {*} options 
+ * @param {object} options 
  * @returns 
  */
 export const setCookie = (name, value, isLocal, options) => {
@@ -33,7 +33,7 @@ export const getCookie = (name) => {
  * 쿠키 삭제
  * @param {string} name 
  * @param {boolean} isLocal 
- * @param {*} options 
+ * @param {object} options 
  * @returns 
  */
 export const removeCookie = (name, isLocal, options) => {
@@ -50,7 +50,7 @@ export const removeCookie = (name, isLocal, options) => {
  * @param {string} name 
  * @param {Array} array 
  * @param {boolean} isLocal 
- * @param {*} options 
+ * @param {object} options 
  * @returns 
  */
 export const setArrayInCookie = (name, array, isLocal, options) => {
@@ -63,9 +63,9 @@ export const setArrayInCookie = (name, array, isLocal, options) => {
 /**
  * Object 쿠키 생성
  * @param {string} name 
- * @param {Object} object 
+ * @param {object} object 
  * @param {boolean} isLocal 
- * @param {*} options 
+ * @param {object} options 
  * @returns 
  */
 export const setObjectInCookie = (name, object, isLocal, options) => {
